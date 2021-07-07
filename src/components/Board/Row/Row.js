@@ -22,7 +22,7 @@ const Row = ({ gameState, rowIndex, onCellClick }) => {
                 rowIndex={rowIndex}
                 cellIndex={cellIndex}
                 onCellClick={onCellClick}
-                content={cell}
+                content={cell[cellIndex]}
               />
           )
         })

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import { createBoard } from "../../constants/gameParams"
+
 import Row from "./Row/Row";
 
 const BoardContainer = styled.section`
 `;
 
 const Board = () => {
-  const [gameState, setGameState] = useState(Array(5).fill().map(_ => Array(5).fill(0)))
+  const [gameState, setGameState] = useState(createBoard(5, 5))
   function onCellClick(x, y) {
     console.log(`x: ${x}, y: ${y}`)
   }
