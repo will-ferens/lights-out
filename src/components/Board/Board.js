@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-const BoardContainer = styled.section``;
+import Row from "./Row/Row";
+
+const BoardContainer = styled.section`
+`;
 
 const Board = () => {
-  return <BoardContainer></BoardContainer>;
+  const [gameState, setGameState] = useState(Array(5).fill().map(_ => Array(5).fill(0)))
+  function onCellClick(x, y) {
+    console.log(`x: ${x}, y: ${y}`)
+  }
+  return (
+    <BoardContainer>
+      {
+        gameState.map((row, index) => {
+          return (
+            <Row
+              key={`row_${index}`}
+              rowIndex={index}
+              gameState={gameState}
+              onCellClick={onCellClick}
+            />
+          )
+        })
+      }
+    </BoardContainer>
+  );
 };
 
 export default Board;
