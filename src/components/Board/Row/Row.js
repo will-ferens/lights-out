@@ -11,18 +11,20 @@ const RowContainer = styled.div`
   }
 `;
 
-const Row = ({ gameState, rowIndex, onCellClick }) => {
+const Row = ({ gameState, rowIndex, onCellClick, setGameState, row }) => {
   return (
     <RowContainer>
       {
-        gameState.map((cell, cellIndex) => {
+        row.map((cell, cellIndex) => {
             return (
               <Cell
                 key={`cell_${rowIndex}_${cellIndex}`}
                 rowIndex={rowIndex}
                 cellIndex={cellIndex}
                 onCellClick={onCellClick}
-                content={cell[cellIndex]}
+                cellState={cell}
+                gameState={gameState}
+                setGameState={setGameState}
               />
           )
         })

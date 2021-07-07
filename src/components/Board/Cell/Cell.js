@@ -14,10 +14,19 @@ const CellContainer = styled.div`
   padding: 0;
   text-align: center;
   width: 45px;
+  &.active {
+    background: #ccc;
+  }
 `;
 
-const Cell = ({ rowIndex, cellIndex, onCellClick }) => {
-  return <CellContainer onClick={() => onCellClick(rowIndex, cellIndex)}/>;
+const Cell = ({ rowIndex, cellIndex, onCellClick, cellState, gameState, setGameState }) => {
+  return (
+    <CellContainer
+      cellState={cellState}
+      className={cellState ? 'active' : ''}
+      onClick={() => onCellClick(rowIndex, cellIndex, gameState, setGameState)}
+    />
+  );
 };
 
 export default Cell;
