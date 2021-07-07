@@ -11,11 +11,13 @@ const BoardContainer = styled.section`
 const Board = () => {
   const [gameState, setGameState] = useState(createBoard(boardDimensions))
 
-  function onCellClick(x, y, gameState, setGameState) {
+  function onCellClick(x, y, gameState) {
+    // Copy current game state
     let newGamestate = [...gameState]
 
     toggleCellState(x, y, newGamestate)
 
+    // Find adjacent cells
     let neighbors = [
       {
         x: x - 1,
@@ -35,15 +37,20 @@ const Board = () => {
       }
     ]
 
+    // Toggle adjacent cells
     for (let i = 0; i < neighbors.length; i++) {
       let neighbor = neighbors[i];
       toggleCellState(neighbor.x, neighbor.y, newGamestate)
     }
+
+    // Return new gameState
     setGameState(newGamestate);
   }
 
   function toggleCellState(x, y, board) {
+    // Check if neighbor is on board
     if (x >= 0 && x < boardDimensions && y >= 0 && y < boardDimensions) {
+      // Toggle cell state, cast to 1 or 0
       board[x][y] = !board[x][y] * 1;
     }
   }
@@ -54,11 +61,10 @@ const Board = () => {
           return (
             <Row
               key={`row_${index}`}
-              rowIndex={index}
               row={row}
+              rowIndex={index}
               gameState={gameState}
               onCellClick={onCellClick}
-              setGameState={setGameState}
             />
           )
         })

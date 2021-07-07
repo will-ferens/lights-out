@@ -19,12 +19,13 @@ const CellContainer = styled.div`
   }
 `;
 
-const Cell = ({ rowIndex, cellIndex, onCellClick, cellState, gameState, setGameState }) => {
+const Cell = ({ rowIndex, cellIndex, onCellClick, cellState, gameState }) => {
   return (
     <CellContainer
       cellState={cellState}
+      // Check for active state
       className={cellState ? 'active' : ''}
-      onClick={() => onCellClick(rowIndex, cellIndex, gameState, setGameState)}
+      onClick={() => onCellClick(rowIndex, cellIndex, gameState)}
     />
   );
 };

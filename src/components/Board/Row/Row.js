@@ -11,20 +11,20 @@ const RowContainer = styled.div`
   }
 `;
 
-const Row = ({ gameState, rowIndex, onCellClick, setGameState, row }) => {
+const Row = ({ gameState, rowIndex, onCellClick, row }) => {
   return (
     <RowContainer>
       {
+        // Render each row in board
         row.map((cell, cellIndex) => {
             return (
               <Cell
                 key={`cell_${rowIndex}_${cellIndex}`}
                 rowIndex={rowIndex}
                 cellIndex={cellIndex}
-                onCellClick={onCellClick}
-                cellState={cell}
                 gameState={gameState}
-                setGameState={setGameState}
+                cellState={cell}
+                onCellClick={onCellClick}
               />
           )
         })
