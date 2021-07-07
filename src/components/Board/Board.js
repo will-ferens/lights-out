@@ -4,14 +4,19 @@ import styled from "styled-components";
 import { createBoard } from "../../constants/gameParams"
 
 import Row from "./Row/Row";
+import MovesCount from "../Controls/MovesCount/MovesCount"
+import Restart from "../Controls/Restart/Restart"
+
 const boardDimensions = 5;
 const BoardContainer = styled.section`
 `;
 
 const Board = () => {
   const [gameState, setGameState] = useState(createBoard(boardDimensions))
+  const [totalMoves, countMoves] = useState(0)
 
   function onCellClick(x, y, gameState) {
+    countMoves(totalMoves + 1)
     // Copy current game state
     let newGamestate = [...gameState]
 
@@ -56,6 +61,14 @@ const Board = () => {
   }
   return (
     <BoardContainer>
+      <MovesCount value={totalMoves} />
+      <Restart 
+        setGameState={setGameState} 
+        createBoard={createBoard} 
+        dimensions={boardDimensions}
+        countMoves={countMoves}
+        totalMoves={totalMoves}
+      />
       {
         gameState.map((row, index) => {
           return (
