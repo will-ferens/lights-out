@@ -1,14 +1,16 @@
+export const boardDimensions = 5;
+
 export const createBoard = (gridDimensions) => {
   // Start with an array with set dimensions
-  const grid = Array(gridDimensions)
+  const grid = Array(gridDimensions);
   let validBoard = false;
   for (let i = 0; i < grid.length; i++) {
     // Each row an array with set length
-    grid[i] = Array(gridDimensions)
+    grid[i] = Array(gridDimensions);
     for (let j = 0; j < grid.length; j++) {
       // Random toggle I / 0
-      let cellState = Math.floor(Math.random() * 2)
-      grid[i][j] = cellState
+      let cellState = Math.floor(Math.random() * 2);
+      grid[i][j] = cellState;
 
       // If at least one cell is toggled, validate board
       if (!validBoard && cellState) {
@@ -18,8 +20,35 @@ export const createBoard = (gridDimensions) => {
   }
 
   if (!validBoard) {
-    createBoard(gridDimensions)
+    createBoard(gridDimensions);
   } else {
-    return grid
+    return grid;
   }
+};
+
+
+export const toggleCellState = (x, y, board) => {
+  // Check if neighbor is on board
+  if (x >= 0 && x < boardDimensions && y >= 0 && y < boardDimensions) {
+    // Toggle cell state, cast to 1 or 0
+    board[x][y] = !board[x][y] * 1;
+  }
+}
+
+export const checkForWin = (board) => {
+  let completedBoard = false;
+  let toggledCells = 0;
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board.length; j++) {
+      if (board[i][j] === 1) {
+        toggledCells += 1;
+      }
+    }
+  }
+
+  if (toggledCells === 0) {
+    completedBoard = true
+  }
+
+  return completedBoard;
 }

@@ -9,11 +9,11 @@ const CellContainer = styled.div`
   font-weight: bold;
   line-height: 45px;
   height: 45px;
-  margin-right: -1px;
-  margin-top: -1px;
+  margin: 2px;
   padding: 0;
   text-align: center;
   width: 45px;
+  border-radius: 50%;
   &.active {
     background: #ccc;
   }
@@ -24,7 +24,7 @@ const Cell = ({ rowIndex, cellIndex, onCellClick, cellState, gameState }) => {
     <CellContainer
       cellState={cellState}
       // Check for active state
-      className={cellState ? 'active' : ''}
+      className={cellState ? "active" : ""}
       onClick={() => onCellClick(rowIndex, cellIndex, gameState)}
     />
   );

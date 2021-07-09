@@ -1,87 +1,105 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { createBoard } from "../../constants/gameParams"
+import { createBoard, toggleCellState, checkForWin, boardDimensions } from "../../constants/gameParams";
 
+import Header from "../Header/Header";
 import Row from "./Row/Row";
 import MovesCount from "../Controls/MovesCount/MovesCount"
 import Restart from "../Controls/Restart/Restart"
 
-const boardDimensions = 5;
 const BoardContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const BoardWrapper = styled.div``
+const WinMessage = styled.div`
+  h3 {
+    display: inline;
+  }
+`
+
+const ControlsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Board = () => {
-  const [gameState, setGameState] = useState(createBoard(boardDimensions))
-  const [totalMoves, countMoves] = useState(0)
+  const [gameState, setGameState] = useState(createBoard(boardDimensions));
+  const [totalMoves, countMoves] = useState(0);
+  const [winConditionMet, setWinCondition] = useState(false);
 
   function onCellClick(x, y, gameState) {
-    countMoves(totalMoves + 1)
+    countMoves(totalMoves + 1);
     // Copy current game state
-    let newGamestate = [...gameState]
+    let newGamestate = [...gameState];
 
-    toggleCellState(x, y, newGamestate)
-
-    // Find adjacent cells
-    let neighbors = [
-      {
-        x: x - 1,
-        y: y
-      },
-      {
-        x: x + 1,
-        y: y
-      },
-      {
-        x: x,
-        y: y - 1
-      },
-      {
-        x: x,
-        y: y + 1
-      }
-    ]
-
-    // Toggle adjacent cells
-    for (let i = 0; i < neighbors.length; i++) {
-      let neighbor = neighbors[i];
-      toggleCellState(neighbor.x, neighbor.y, newGamestate)
-    }
+    toggleCellState(x, y, newGamestate);
+    
+    toggleCellState(x - 1, y, newGamestate);
+    toggleCellState(x + 1, y, newGamestate);
+    toggleCellState(x, y - 1, newGamestate);
+    toggleCellState(x, y + 1, newGamestate);
 
     // Return new gameState
+    setWinCondition(checkForWin(newGamestate));
     setGameState(newGamestate);
   }
 
-  function toggleCellState(x, y, board) {
-    // Check if neighbor is on board
-    if (x >= 0 && x < boardDimensions && y >= 0 && y < boardDimensions) {
-      // Toggle cell state, cast to 1 or 0
-      board[x][y] = !board[x][y] * 1;
-    }
-  }
+
   return (
     <BoardContainer>
-      <MovesCount value={totalMoves} />
-      <Restart 
-        setGameState={setGameState} 
-        createBoard={createBoard} 
-        dimensions={boardDimensions}
-        countMoves={countMoves}
-        totalMoves={totalMoves}
-      />
-      {
-        gameState.map((row, index) => {
-          return (
-            <Row
-              key={`row_${index}`}
-              row={row}
-              rowIndex={index}
-              gameState={gameState}
-              onCellClick={onCellClick}
+      <Header />
+      {winConditionMet
+        ?
+        <WinMessage>
+          <h2>You won!</h2>
+          <div>
+            <span>
+              It only took &nbsp;
+              <MovesCount value={totalMoves} />
+              &nbsp; moves.
+            </span>
+          </div>
+          <div>
+            <p>Play Again?</p>
+            <Restart
+              setGameState={setGameState}
+              createBoard={createBoard}
+              countMoves={countMoves}
+              dimensions={boardDimensions}
+              totalMoves={totalMoves}
             />
-          )
-        })
-      }
+          </div>
+        </WinMessage>
+        :
+        <BoardWrapper>
+          <ControlsContainer>
+            <MovesCount value={totalMoves} />
+            <Restart
+              setGameState={setGameState}
+              createBoard={createBoard}
+              countMoves={countMoves}
+              dimensions={boardDimensions}
+              totalMoves={totalMoves}
+            />
+          </ControlsContainer>
+          {gameState.map((row, index) => {
+            return (
+              <Row
+                data-testid="row"
+                key={`row_${index}`}
+                row={row}
+                rowIndex={index}
+                gameState={gameState}
+                onCellClick={onCellClick}
+              />
+            );
+          })}
+          </BoardWrapper>
+        }
     </BoardContainer>
   );
 };
