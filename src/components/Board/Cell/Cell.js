@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { secondary, active } from "../../../constants/colors";
 
 const CellContainer = styled.div`
-  background: #fff;
-  border: 1px solid #999;
+  background: ${secondary};
   float: left;
   font-size: 24px;
   font-weight: bold;
@@ -14,8 +14,9 @@ const CellContainer = styled.div`
   text-align: center;
   width: 45px;
   border-radius: 50%;
+  transition: all 0.5s;
   &.active {
-    background: #ccc;
+    background: ${active};
   }
 `;
 

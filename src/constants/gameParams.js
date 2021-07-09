@@ -26,14 +26,13 @@ export const createBoard = (gridDimensions) => {
   }
 };
 
-
 export const toggleCellState = (x, y, board) => {
   // Check if neighbor is on board
   if (x >= 0 && x < boardDimensions && y >= 0 && y < boardDimensions) {
     // Toggle cell state, cast to 1 or 0
     board[x][y] = !board[x][y] * 1;
   }
-}
+};
 
 export const checkForWin = (board) => {
   let completedBoard = false;
@@ -47,8 +46,8 @@ export const checkForWin = (board) => {
   }
 
   if (toggledCells === 0) {
-    completedBoard = true
+    completedBoard = true;
   }
 
   return completedBoard;
-}
+};
