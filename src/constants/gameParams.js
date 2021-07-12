@@ -1,12 +1,12 @@
 export const boardDimensions = 5;
 
-export const createBoard = (gridDimensions) => {
+export const createBoard = (boardDimensions) => {
   // Start with an array with set dimensions
-  const grid = Array(gridDimensions);
+  const grid = Array(boardDimensions);
   let validBoard = false;
   for (let i = 0; i < grid.length; i++) {
     // Each row an array with set length
-    grid[i] = Array(gridDimensions);
+    grid[i] = Array(boardDimensions);
     for (let j = 0; j < grid.length; j++) {
       // Random toggle I / 0
       let cellState = Math.floor(Math.random() * 2);
@@ -20,7 +20,7 @@ export const createBoard = (gridDimensions) => {
   }
 
   if (!validBoard) {
-    createBoard(gridDimensions);
+    createBoard(boardDimensions);
   } else {
     return grid;
   }
@@ -31,6 +31,8 @@ export const toggleCellState = (x, y, board) => {
   if (x >= 0 && x < boardDimensions && y >= 0 && y < boardDimensions) {
     // Toggle cell state, cast to 1 or 0
     board[x][y] = !board[x][y] * 1;
+  } else {
+    return;
   }
 };
 
